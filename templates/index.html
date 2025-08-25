@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoVault Pro - Advanced Text Encryption</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-shield-halved"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>CryptoVault Pro</h1>
+                        <span class="logo-subtitle">Advanced Encryption Suite</span>
+                    </div>
+                </div>
+                <div class="header-controls">
+                    <button id="themeToggle" class="theme-btn">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="encryption-panel">
+                <div class="panel-header">
+                    <div class="panel-title">
+                        <i class="fas fa-key"></i>
+                        <h2>Encryption Controls</h2>
+                    </div>
+                    <div class="algorithm-badge" id="algorithmBadge">
+                        <span class="badge-text">Caesar Cipher</span>
+                        <span class="security-level low">Low Security</span>
+                    </div>
+                </div>
+                
+                <div class="controls-grid">
+                    <div class="algorithm-selector">
+                        <label for="algorithm">
+                            <i class="fas fa-cogs"></i>
+                            Select Algorithm
+                        </label>
+                        <select id="algorithm" class="select-input">
+                            <option value="caesar">Caesar Cipher</option>
+                            <option value="vigenere">Vigenère Cipher</option>
+                            <option value="base64">Base64 Encoding</option>
+                            <option value="aes">AES-256 (Fernet)</option>
+                            <option value="chacha20">ChaCha20</option>
+                            <option value="rsa">RSA-2048</option>
+                        </select>
+                    </div>
+
+                    <div class="key-section" id="keySection">
+                        <div class="key-controls">
+                            <label for="keyInput">
+                                <i class="fas fa-lock"></i>
+                                Encryption Key
+                            </label>
+                            <div class="key-input-group">
+                                <textarea id="keyInput" class="key-input" placeholder="Enter encryption key..." rows="3"></textarea>
+                                <div class="key-buttons">
+                                    <button id="generateKey" class="generate-key-btn">
+                                        <i class="fas fa-magic"></i>
+                                        Generate
+                                    </button>
+                                    <button id="showRSAModal" class="rsa-modal-btn" style="display: none;">
+                                        <i class="fas fa-key"></i>
+                                        Manage Keys
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="key-info">
+                            <p id="keyInfo" class="info-text"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-processing">
+                    <div class="input-section">
+                        <div class="section-header">
+                            <label for="inputText">
+                                <i class="fas fa-edit"></i>
+                                Input Text
+                            </label>
+                            <div class="input-controls">
+                                <input type="file" id="fileInput" accept=".txt" style="display: none;">
+                                <button id="uploadBtn" class="control-btn">
+                                    <i class="fas fa-upload"></i>
+                                    Upload
+                                </button>
+                                <button id="clearBtn" class="control-btn">
+                                    <i class="fas fa-trash"></i>
+                                    Clear
+                                </button>
+                            </div>
+                        </div>
+                        <textarea id="inputText" placeholder="Enter your text here..." class="text-input"></textarea>
+                        <div class="text-stats">
+                            <span id="inputStats">0 characters</span>
+                        </div>
+                    </div>
+
+                    <div class="processing-controls">
+                        <button id="encryptBtn" class="action-btn encrypt-btn">
+                            <i class="fas fa-lock"></i>
+                            <span>Encrypt</span>
+                        </button>
+                        <button id="swapBtn" class="swap-btn">
+                            <i class="fas fa-exchange-alt"></i>
+                        </button>
+                        <button id="decryptBtn" class="action-btn decrypt-btn">
+                            <i class="fas fa-unlock"></i>
+                            <span>Decrypt</span>
+                        </button>
+                    </div>
+
+                    <div class="output-section">
+                        <div class="section-header">
+                            <label for="outputText">
+                                <i class="fas fa-shield-alt"></i>
+                                Output
+                            </label>
+                            <div class="output-controls">
+                                <button id="copyBtn" class="control-btn">
+                                    <i class="fas fa-copy"></i>
+                                    Copy
+                                </button>
+                                <button id="downloadBtn" class="control-btn">
+                                    <i class="fas fa-download"></i>
+                                    Download
+                                </button>
+                            </div>
+                        </div>
+                        <textarea id="outputText" readonly class="text-output"></textarea>
+                        <div class="text-stats">
+                            <span id="outputStats">0 characters</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="errorMessage" class="message error-message" style="display: none;"></div>
+                <div id="successMessage" class="message success-message" style="display: none;"></div>
+            </div>
+
+            <div class="info-panel">
+                <div class="panel-header">
+                    <div class="panel-title">
+                        <i class="fas fa-info-circle"></i>
+                        <h2>Algorithm Information</h2>
+                    </div>
+                </div>
+                <div id="algorithmInfo" class="algorithm-info">
+                    <!-- Algorithm info will be populated by JavaScript -->
+                </div>
+                
+                <div class="features-list">
+                    <h3><i class="fas fa-star"></i> Features</h3>
+                    <ul>
+                        <li><i class="fas fa-check"></i> Real-time encryption preview</li>
+                        <li><i class="fas fa-check"></i> Secure key generation</li>
+                        <li><i class="fas fa-check"></i> File upload/download</li>
+                        <li><i class="fas fa-check"></i> Multiple algorithms</li>
+                        <li><i class="fas fa-check"></i> Dark/Light themes</li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <p>&copy; 2025 CryptoVault Pro. Advanced encryption for secure communications.</p>
+                <div class="footer-links">
+                    <a href="#"><i class="fas fa-shield-alt"></i> Security</a>
+                    <a href="#"><i class="fas fa-book"></i> Documentation</a>
+                    <a href="https://github.com/JV-Vigneesh"><i class="fa-brands fa-github"></i> GitHub</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- RSA Key Management Modal -->
+    <div id="rsaModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-key"></i> RSA Key Management</h3>
+                <button class="modal-close" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="key-pair-section">
+                    <div class="key-field">
+                        <label for="publicKey">Public Key (for encryption):</label>
+                        <textarea id="publicKey" class="key-textarea" readonly></textarea>
+                        <button class="copy-key-btn" data-target="publicKey">
+                            <i class="fas fa-copy"></i> Copy Public Key
+                        </button>
+                    </div>
+                    <div class="key-field">
+                        <label for="privateKey">Private Key (for decryption):</label>
+                        <textarea id="privateKey" class="key-textarea" readonly></textarea>
+                        <button class="copy-key-btn" data-target="privateKey">
+                            <i class="fas fa-copy"></i> Copy Private Key
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button id="generateRSAKeys" class="generate-rsa-btn">
+                        <i class="fas fa-magic"></i> Generate New Key Pair
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+    
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
